@@ -1,0 +1,57 @@
+{% extends 'app/base.html' %}
+
+{% block title %}{{ voter.fullname }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<article>
+    <header>
+        <h2>Voter Details</h2>
+        <nav aria-label="Breadcrumb">
+            <ol style="list-style: none; padding: 0; display: flex; gap: 0.5rem;">
+                <li><a href="{% url 'voters' %}">All Voters</a></li>
+                <li aria-hidden="true">&gt;</li>
+                <li aria-current="page">{{ voter.fullname }}</li>
+            </ol>
+        </nav>
+    </header>
+    
+    <section aria-labelledby="voter-info-heading">
+        <h3 id="voter-info-heading">Personal Information</h3>
+        <dl>
+            <dt>Full Name:</dt>
+            <dd><strong>{{ voter.fullname }}</strong></dd>
+            
+            <dt>Email Address:</dt>
+            <dd>
+                <a href="mailto:{{ voter.email }}"
+                   aria-label="Send email to {{ voter.fullname }}">
+                    {{ voter.email }}
+                </a>
+            </dd>
+            
+            <dt>Phone Number:</dt>
+            <dd>
+                <a href="tel:{{ voter.telephone }}"
+                   aria-label="Call {{ voter.fullname }}">
+                    {{ voter.telephone }}
+                </a>
+            </dd>
+            
+            <dt>Student ID:</dt>
+            <dd>{{ voter.student_id }}</dd>
+            
+            {% if voter.registered_list %}
+                <dt>Registration Notes:</dt>
+                <dd>{{ voter.registered_list }}</dd>
+            {% endif %}
+        </dl>
+    </section>
+    
+    <nav aria-label="Voter actions">
+        <a href="{% url 'voters' %}" class="btn btn-secondary">
+            &larr; Back to All Voters
+        </a>
+        <!-- Add edit functionality if needed -->
+    </nav>
+</article>
+{% endblock %}

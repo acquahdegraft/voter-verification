@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Voter Registration System{% endblock %}</title>
+    <style>
+        /* Accessibility-focused CSS */
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+        
+        /* Skip link for keyboard navigation */
+        .skip-link {
+            background: #000;
+            color: #fff;
+            padding: 8px 16px;
+            position: absolute;
+            transform: translateY(-100%);
+            transition: transform 0.3s;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        
+        .skip-link:focus {
+            transform: translateY(0%);
+        }
+        
+        /* High contrast focus indicators */
+        *:focus {
+            outline: 3px solid #0066cc;
+            outline-offset: 2px;
+        }
+        
+        /* Form styling for accessibility */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #0066cc;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-message {
+            color: #2e7d32;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Button styling */
+        .btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+        
+        .btn:hover, .btn:focus {
+            background: #004499;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover, .btn-secondary:focus {
+            background: #545b62;
+        }
+        
+        /* Table styling for accessibility */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+        
+        /* Alert styling */
+        .alert {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip navigation for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <nav role="navigation" aria-label="Main navigation">
+            <h1>Voter Registration System</h1>
+            <ul style="list-style: none; padding: 0; display: flex; gap: 1rem;">
+                <li><a href="{% url 'voters' %}" class="btn btn-secondary">View All Voters</a></li>
+                <li><a href="{% url 'voter_forms' %}" class="btn">Register to Vote</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Messages section with proper ARIA roles -->
+        {% if messages %}
+            <section aria-label="Status messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" 
+                         role="alert" 
+                         aria-live="polite"
+                         aria-atomic="true">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </section>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer role="contentinfo">
+        <p>&copy; 2025 Voter Registration System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

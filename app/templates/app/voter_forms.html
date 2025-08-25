@@ -1,0 +1,127 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Register to Vote - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section>
+    <header>
+        <h2>Voter Registration Form</h2>
+        <p>Please fill out all required fields to register as a voter.</p>
+    </header>
+    
+    <form method="post" novalidate aria-labelledby="registration-form-heading">
+        <fieldset>
+            <legend id="registration-form-heading">Personal Information</legend>
+            {% csrf_token %}
+            
+            <!-- Full Name Field -->
+            <div class="form-group">
+                {{ forms.fullname.label_tag }}
+                {{ forms.fullname }}
+                {% if forms.fullname.help_text %}
+                    <div id="{{ forms.fullname.id_for_label }}-help" class="help-text">
+                        {{ forms.fullname.help_text }}
+                    </div>
+                {% endif %}
+                {% if forms.fullname.errors %}
+                    <div role="alert" class="error-message" aria-live="polite">
+                        {% for error in forms.fullname.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Email Field -->
+            <div class="form-group">
+                {{ forms.email.label_tag }}
+                {{ forms.email }}
+                {% if forms.email.help_text %}
+                    <div id="{{ forms.email.id_for_label }}-help" class="help-text">
+                        {{ forms.email.help_text }}
+                    </div>
+                {% endif %}
+                {% if forms.email.errors %}
+                    <div role="alert" class="error-message" aria-live="polite">
+                        {% for error in forms.email.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Telephone Field -->
+            <div class="form-group">
+                {{ forms.telephone.label_tag }}
+                {{ forms.telephone }}
+                {% if forms.telephone.help_text %}
+                    <div id="{{ forms.telephone.id_for_label }}-help" class="help-text">
+                        {{ forms.telephone.help_text }}
+                    </div>
+                {% endif %}
+                {% if forms.telephone.errors %}
+                    <div role="alert" class="error-message" aria-live="polite">
+                        {% for error in forms.telephone.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Student ID Field -->
+            <div class="form-group">
+                {{ forms.student_id.label_tag }}
+                {{ forms.student_id }}
+                {% if forms.student_id.help_text %}
+                    <div id="{{ forms.student_id.id_for_label }}-help" class="help-text">
+                        {{ forms.student_id.help_text }}
+                    </div>
+                {% endif %}
+                {% if forms.student_id.errors %}
+                    <div role="alert" class="error-message" aria-live="polite">
+                        {% for error in forms.student_id.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn">
+                Register to Vote
+            </button>
+            <a href="{% url 'voters' %}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+
+<!-- Enhanced form validation with JavaScript for better UX -->
+<script>
+    // Add client-side validation feedback
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input[required]');
+        
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+        });
+        
+        function validateField(field) {
+            const errorDiv = field.parentNode.querySelector('.error-message');
+            if (field.checkValidity()) {
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                }
+                field.setAttribute('aria-invalid', 'false');
+            } else {
+                field.setAttribute('aria-invalid', 'true');
+            }
+        }
+    });
+</script>
+{% endblock %}

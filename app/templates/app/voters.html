@@ -1,0 +1,77 @@
+{% extends 'app/base.html' %}
+
+{% block title %}All Registered Voters - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section>
+    <header>
+        <h2>All Registered Voters</h2>
+        <p>Total registered voters: <strong>{{ voters.count }}</strong></p>
+    </header>
+    
+    {% if voters %}
+        <div class="table-responsive">
+            <table role="table" aria-label="List of registered voters">
+                <caption class="visually-hidden">
+                    Table showing all registered voters with their full names, email addresses, phone numbers, and student IDs
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col" id="name-header">Full Name</th>
+                        <th scope="col" id="email-header">Email</th>
+                        <th scope="col" id="phone-header">Phone</th>
+                        <th scope="col" id="student-header">Student ID</th>
+                        <th scope="col" id="actions-header">
+                            <span class="visually-hidden">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for voter in voters %}
+                        <tr>
+                            <td headers="name-header">
+                                <strong>{{ voter.fullname }}</strong>
+                            </td>
+                            <td headers="email-header">
+                                <a href="mailto:{{ voter.email }}" 
+                                   aria-label="Send email to {{ voter.fullname }}">
+                                    {{ voter.email }}
+                                </a>
+                            </td>
+                            <td headers="phone-header">
+                                <a href="tel:{{ voter.telephone }}"
+                                   aria-label="Call {{ voter.fullname }}">
+                                    {{ voter.telephone }}
+                                </a>
+                            </td>
+                            <td headers="student-header">{{ voter.student_id }}</td>
+                            <td headers="actions-header">
+                                <a href="{% url 'voter' voter.id %}" 
+                                   class="btn btn-secondary"
+                                   aria-label="View details for {{ voter.fullname }}">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div role="region" aria-live="polite">
+            <p><strong>No voters registered yet.</strong></p>
+            <p>
+                <a href="{% url 'voter_forms' %}" class="btn">
+                    Register the first voter
+                </a>
+            </p>
+        </div>
+    {% endif %}
+    
+    <nav aria-label="Voter management actions">
+        <a href="{% url 'voter_forms' %}" class="btn">
+            Register New Voter
+        </a>
+    </nav>
+</section>
+{% endblock %}
